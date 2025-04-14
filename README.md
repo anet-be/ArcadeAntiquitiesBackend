@@ -41,13 +41,6 @@ This is the backend service for Project Arcade, built with Spring Boot. It provi
 
 ### Running with Docker
 
-#### Pulling the Images
-
-You can pull the pre-built Docker images from GitLab:
-
-```sh
-docker pull registry.gitlab.com/kdg-ti/the-lab/teams-24-25/project-arcade/backend
-```
 
 #### Running the Backend
 

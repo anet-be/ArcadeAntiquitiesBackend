@@ -27,6 +27,7 @@ RUN python3 -m venv /venv && \
 
 
 # Build the Spring Boot application
+RUN chmod +x gradlew
 RUN ./gradlew build -x test
 
 # Expose the application port
