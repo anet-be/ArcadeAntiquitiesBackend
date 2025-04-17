@@ -150,6 +150,8 @@ def add_files_to_repo(assets, repo_path, pacman_name, space_invader_name, projec
 
 def commit_and_push_changes(repo, projectName):
     try:
+        repo.git.remote("set-url", "origin", GIT_REPO_URL)
+
         if repo.is_dirty(untracked_files=True):
             repo.git.commit('-m', f"Added assets for {projectName}")
             logger.info("Changes committed.")

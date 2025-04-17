@@ -12,6 +12,10 @@ RUN apt-get update && apt-get install -y \
 # Set the working directory in the container
 WORKDIR /app
 
+# Set the environment variables (these can be passed at runtime by docker-compose)
+ENV GIT_USERNAME=""
+ENV GIT_EMAIL=""
+
 # Copy the Gradle wrapper and dependencies first for caching
 COPY gradlew gradlew
 COPY gradle gradle
@@ -25,12 +29,14 @@ COPY . .
 RUN python3 -m venv /venv && \
     /venv/bin/pip install --no-cache-dir gitpython python-dotenv
 
-
 # Build the Spring Boot application
 RUN ./gradlew build -x test
 
 # Expose the application port
 EXPOSE 8081
 
-# Set the entry point
-CMD ["java", "-jar", "build/libs/spring-backend-1.0.0.jar"]
+# Set the entry point, configure git, and then start the application
+CMD sh -c "echo GIT_USERNAME=$GIT_USERNAME && echo GIT_EMAIL=$GIT_EMAIL && \
+           git config --global user.name \"$GIT_USERNAME\" && \
+           git config --global user.email \"$GIT_EMAIL\" && \
+           java -jar build/libs/spring-backend-1.0.0.jar"
